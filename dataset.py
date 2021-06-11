@@ -7,17 +7,9 @@ from labels import get_cityscapes_labels
 # classes for data loading and preprocessing
 class Dataset:
     CLASSES = get_cityscapes_labels()
-
     def __init__(self, images_dir, masks_dir, classes=None, augmentation=None, preprocessing=None):
-        self.ids = os.listdir(images_dir)
-        self.ids_mask = os.listdir(masks_dir)
-        self.images_fps = [os.path.join(images_dir, image_id) for image_id in self.ids]
-        # self.masks_fps = [os.path.join(masks_dir, image_id) for image_id in self.ids]
-        self.masks_fps = [os.path.join(masks_dir, a.replace('leftImg8bit.png', 'gtFine_labelIds.png')) for a in
-                          self.ids]
-        print(self.ids)
-        print(self.images_fps)
-        print(self.masks_fps)
+        self.images_fps = images_dir
+        self.masks_fps = masks_dir
         # convert str names to class values on masks
         self.class_values = [self.CLASSES.index(cls.lower()) for cls in classes]
         print(self.class_values)
