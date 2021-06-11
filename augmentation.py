@@ -93,5 +93,6 @@ def get_preprocessing(preprocessing_fn):
     _transform = [
         A.Lambda(image=preprocessing_fn),
     ]
+    print('Inside augmentation.py/get_preprocessing()')
     return A.Compose(_transform)
 
