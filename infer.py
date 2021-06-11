@@ -1,6 +1,4 @@
-import os
-import cv2
-import keras
+
 import numpy as np
 import matplotlib.pyplot as plt
 from cityscapes_downloader import data_path_loader

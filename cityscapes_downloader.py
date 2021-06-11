@@ -2,8 +2,8 @@ import os
 from glob import glob
 
 def data_path_loader(dataset_path='data/cityscapes'):
-    cityscapes_username = '**********'
-    cityscapes_password = '**********'
+    cityscapes_username = '*****'
+    cityscapes_password = '*****'
     if not os.path.exists(dataset_path):
         print('Loading data...')
         os.system(
@@ -31,12 +31,12 @@ def data_path_loader(dataset_path='data/cityscapes'):
         print("Images : ", len(image_paths))
         return image_paths
 
-    train_x_place_folders = sorted(glob(os.path.join(dataset_path, "leftImg8bit_trainvaltest/leftImg8bit/train/*")))
+    train_x_place_folders = sorted(glob(os.path.join(dataset_path, "leftImg8bit/train/*")))
     # print(train_x_place_folders)
     # train_x_place_folders = sorted(glob(os.path.join(dataset_path, "leftImg8bit/train/*")))
 
     # print(train_x_place_folders)
-    train_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine_trainvaltest/gtFine/train/*")))
+    train_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine/train/*")))
     # train_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine/train/*")))
 
     # print(train_y_place_folders)
@@ -52,11 +52,11 @@ def data_path_loader(dataset_path='data/cityscapes'):
     trainY_paths = image_accumulator_from_folder(train_y_place_folders)
 
     # test_x_place_folders = sorted(glob(os.path.join(dataset_path, "leftImg8bit/test/*")))
-    test_x_place_folders = sorted(glob(os.path.join(dataset_path, "leftImg8bit_trainvaltest/leftImg8bit/test/*")))
+    test_x_place_folders = sorted(glob(os.path.join(dataset_path, "leftImg8bit/test/*")))
 
     # print(test_x_place_folders)
     # test_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine/test/*")))
-    test_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine_trainvaltest/gtFine/test/*")))
+    test_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine/test/*")))
 
     # print(test_y_place_folders)
     print("***********************")
@@ -70,11 +70,11 @@ def data_path_loader(dataset_path='data/cityscapes'):
     print("----------------------")
     testY_paths = image_accumulator_from_folder(test_y_place_folders)
 
-    val_x_place_folders = sorted(glob(os.path.join(dataset_path, "leftImg8bit_trainvaltest/leftImg8bit/val/*")))
+    val_x_place_folders = sorted(glob(os.path.join(dataset_path, "leftImg8bit/val/*")))
 
     # print(test_x_place_folders)
     # test_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine/test/*")))
-    val_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine_trainvaltest/gtFine/val/*")))
+    val_y_place_folders = sorted(glob(os.path.join(dataset_path, "gtFine/val/*")))
 
     # print(test_y_place_folders)
     print("***********************")

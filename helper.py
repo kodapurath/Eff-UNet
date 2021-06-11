@@ -1,7 +1,7 @@
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import cv2
-import keras
+import tensorflow.keras
 import numpy as np
 import matplotlib.pyplot as plt
 from cityscapes_downloader import data_path_loader

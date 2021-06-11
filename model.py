@@ -1,4 +1,4 @@
-import keras
+import tensorflow.keras as keras
 import numpy as np
 import matplotlib.pyplot as plt
 from cityscapes_downloader import data_path_loader
