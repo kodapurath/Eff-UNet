@@ -13,6 +13,7 @@ def visualize(**images):
         plt.yticks([])
         plt.title(' '.join(name.split('_')).title())
         plt.imshow(image)
+    plt.savefig("infered.jpg")
     plt.show()
 
 # helper function for data visualization

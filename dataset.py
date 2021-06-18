@@ -22,8 +22,12 @@ class Dataset:
         # read data
         print("This is dataset.py/__get__item = ",i)
         image = cv2.imread(self.images_fps[i])
+        print("Original image size : ",image.shape)
+        image = cv2.resize(image, (0,0), fx=0.5, fy=0.5)
+        print("Resized image size : ",image.shape)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         mask = cv2.imread(self.masks_fps[i], 0)
+        mask = cv2.resize(mask, (0,0), fx=0.5, fy=0.5)
         print("MASK ADDRESS : ", self.masks_fps[i])
         print("IMAGE ADDRESS : ", self.images_fps[i])
         # print("IMAGE INSIDE CLASS", image)
@@ -31,11 +35,11 @@ class Dataset:
         # extract certain classes from mask (e.g. cars)
         masks = [(mask == v) for v in self.class_values]
         mask = np.stack(masks, axis=-1).astype('float')
-
+        print("inside dataset.py MASK SHAPE =============",mask.shape)
         # add background if mask is not binary
-        if mask.shape[-1] != 1:
-            background = 1 - mask.sum(axis=-1, keepdims=True)
-            mask = np.concatenate((mask, background), axis=-1)
+        # if mask.shape[-1] != 1:
+        #     background = 1 - mask.sum(axis=-1, keepdims=True)
+        #     mask = np.concatenate((mask, background), axis=-1)
 
         # apply augmentations
         if self.augmentation:

@@ -2,8 +2,8 @@ import os
 from glob import glob
 
 def data_path_loader(dataset_path='data/cityscapes'):
-    cityscapes_username = '######'
-    cityscapes_password = '######'
+    cityscapes_username = 'abhay.k-oric@ottonomy.io'
+    cityscapes_password = 'asjaanya'
     if not os.path.exists(dataset_path):
         print('Loading data...')
         os.system(

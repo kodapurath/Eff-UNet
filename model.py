@@ -36,7 +36,7 @@ def Model():
 
     # Segmentation models losses can be combined together by '+' and scaled by integer or float factor
     # set class weights for dice_loss (car: 1.; pedestrian: 2.; background: 0.5;)
-    dice_loss = sm.losses.DiceLoss(class_weights=np.ones(36))
+    dice_loss = sm.losses.DiceLoss(class_weights=np.ones(len(CLASSES)))
     focal_loss = sm.losses.BinaryFocalLoss() if n_classes == 1 else sm.losses.CategoricalFocalLoss()
     total_loss = dice_loss + (1 * focal_loss)
 
