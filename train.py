@@ -13,7 +13,7 @@ import segmentation_models as sm
 BATCH_SIZE = 3
 CLASSES = get_cityscapes_labels()
 LR = 0.0001
-EPOCHS = 1
+EPOCHS = 10
 BACKBONE = 'efficientnetb1'
 
 preprocess_input = sm.get_preprocessing(BACKBONE)
@@ -77,13 +77,14 @@ valid_dataloader = Dataloder(valid_dataset, batch_size=1, shuffle=False)
 # check shapes for errors
 print("DATALODAEER SHAPE 0==========================",train_dataloader[0][0].shape)
 print("DATALODAEER SHAPE 1==========================",train_dataloader[0][1].shape)
-print ("Actual 1======================",(BATCH_SIZE, 320, 320, n_classes))
-assert train_dataloader[0][0].shape == (BATCH_SIZE, 320, 320, 3)
-assert train_dataloader[0][1].shape == (BATCH_SIZE, 320, 320, n_classes)
+print ("Actual 1======================",(BATCH_SIZE, 512, 512, n_classes))
+assert train_dataloader[0][0].shape == (BATCH_SIZE, 512, 512, 3)
+assert train_dataloader[0][1].shape == (BATCH_SIZE, 512, 512, n_classes)
 
 # define callbacks for learning rate scheduling and best checkpoints saving
+# /content/drive/MyDrive/Ottonomy/best_model.h5
 callbacks = [
-    keras.callbacks.ModelCheckpoint('./best_model.h5', save_weights_only=True, save_best_only=True, mode='min'),
+    keras.callbacks.ModelCheckpoint('../drive/MyDrive/Ottonomy/best_model.h5', save_weights_only=True, save_best_only=True, mode='min'),
     keras.callbacks.ReduceLROnPlateau(),
 ]
 
