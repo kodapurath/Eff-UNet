@@ -14,9 +14,8 @@ from tensorflow.keras.models import load_model# import efficientnet.keras as k
 BATCH_SIZE = 4
 CLASSES = get_cityscapes_labels()
 EPOCHS = 1
-# BACKBONE = 'efficientnetb1'
-
-# preprocess_input = sm.get_preprocessing(BACKBONE)
+BACKBONE = 'efficientnetb1'
+preprocess_input = sm.get_preprocessing(BACKBONE)
 
 n_classes = 1 if len(CLASSES) == 1 else (len(CLASSES) ) 
 dice_loss = sm.losses.DiceLoss(class_weights=np.ones(len(CLASSES)))
