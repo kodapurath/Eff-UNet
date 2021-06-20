@@ -10,10 +10,10 @@ from labels import *
 x_train_dir, y_train_dir, x_valid_dir, y_valid_dir, x_test_dir, y_test_dir = data_path_loader()
 """# Segmentation model training"""
 import segmentation_models as sm
-BATCH_SIZE = 3
+BATCH_SIZE = 4
 CLASSES = get_cityscapes_labels()
 LR = 0.0001
-EPOCHS = 10
+EPOCHS = 1
 BACKBONE = 'efficientnetb1'
 
 preprocess_input = sm.get_preprocessing(BACKBONE)
@@ -42,7 +42,7 @@ total_loss = dice_loss + (1 * focal_loss)
 metrics = [sm.metrics.IOUScore(threshold=0.5), sm.metrics.FScore(threshold=0.5)]
 print('MODEL before compiling ===========',model)
 
-# model=keras.models.load_weights('../drive/MyDrive/Ottonomy/best_model.h5')
+# model=keras.models.load_model('../drive/MyDrive/Ottonomy/best_model.h5')
 model.compile(optim, total_loss, metrics)
 model.load_weights('../drive/MyDrive/Ottonomy/best_model.h5')
 
@@ -88,7 +88,7 @@ assert train_dataloader[0][1].shape == (BATCH_SIZE, 512, 512, n_classes)
 # define callbacks for learning rate scheduling and best checkpoints saving
 # /content/drive/MyDrive/Ottonomy/best_model.h5
 callbacks = [
-    keras.callbacks.ModelCheckpoint('../drive/MyDrive/Ottonomy/best_model.h5', save_weights_only=True, save_best_only=True, mode='min'),
+    keras.callbacks.ModelCheckpoint('../drive/MyDrive/Ottonomy/best_model-3.h5', save_weights_only=False, save_best_only=True, mode='min'),
     keras.callbacks.ReduceLROnPlateau(),
 ]
 
@@ -101,7 +101,7 @@ history = model.fit_generator(
     validation_data=valid_dataloader,
     validation_steps=len(valid_dataloader),
 )
-
+model.save('../drive/MyDrive/Ottonomy/saved_model/my_model2')
 # Plot training & validation iou_score values
 plt.figure(figsize=(30, 5))
 plt.subplot(121)
