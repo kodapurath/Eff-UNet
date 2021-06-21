@@ -13,29 +13,29 @@ class Dataset:
         self.masks_fps = masks_dir
         # convert str names to class values on masks
         self.class_values = [self.CLASSES.index(cls.lower()) for cls in classes]
-        print('from dataset.py/Dataset class values or indices : ',self.class_values)
+#         print('from dataset.py/Dataset class values or indices : ',self.class_values)
         self.augmentation = augmentation
         self.preprocessing = preprocessing
 
     def __getitem__(self, i):
 
         # read data
-        print("This is dataset.py/__get__item = ",i)
+#         print("This is dataset.py/__get__item = ",i)
         image = cv2.imread(self.images_fps[i])
-        print("Original image size : ",image.shape)
+#         print("Original image size : ",image.shape)
         image = cv2.resize(image, (0,0), fx=0.5, fy=0.5)
-        print("Resized image size : ",image.shape)
+#         print("Resized image size : ",image.shape)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         mask = cv2.imread(self.masks_fps[i], 0)
         mask = cv2.resize(mask, (0,0), fx=0.5, fy=0.5)
-        print("MASK ADDRESS : ", self.masks_fps[i])
-        print("IMAGE ADDRESS : ", self.images_fps[i])
+#         print("MASK ADDRESS : ", self.masks_fps[i])
+#         print("IMAGE ADDRESS : ", self.images_fps[i])
         # print("IMAGE INSIDE CLASS", image)
         # print("MASK INDSIDE CLASS", mask)
         # extract certain classes from mask (e.g. cars)
         masks = [(mask == v) for v in self.class_values]
         mask = np.stack(masks, axis=-1).astype('float')
-        print("inside dataset.py MASK SHAPE =============",mask.shape)
+#         print("inside dataset.py MASK SHAPE =============",mask.shape)
         # add background if mask is not binary
         # if mask.shape[-1] != 1:
         #     background = 1 - mask.sum(axis=-1, keepdims=True)
