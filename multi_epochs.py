@@ -35,17 +35,30 @@ metrics = [sm.metrics.IOUScore(threshold=0.5), sm.metrics.FScore(threshold=0.5)]
 x_train_dir, y_train_dir, x_valid_dir, y_valid_dir, x_test_dir, y_test_dir = data_path_loader()
 
 first_index=0
-div=int(len(x_train_dir)/6)
+div=int(len(x_train_dir)/10)
 last_index=div-1
 dataset_len=len(x_train_dir)
 
+val_first_index=0
+val_div=int(len(x_val_dir)/10)
+val_last_index=val_div-1
+val_dataset_len=len(x_val_dir)
 while last_index<=dataset_len-1:
 
   x_train_dir=x_train_dir[first_index:last_index]
   y_train_dir=y_train_dir[first_index:last_index]
   first_index=last_index+1
   last_index+=div
+
+  x_val_dir=x_val_dir[val_first_index:val_last_index]
+  y_val_dir=y_val_dir[val_first_index:val_last_index]
+  val_first_index=val_last_index+1
+  val_last_index+=val_div
+
+
   model=keras.models.load_model('../drive/MyDrive/Ottonomy/saved_model/my_model_ep-'+str(current_epoch-1),custom_objects={'f1-score':sm.metrics.FScore(threshold=0.5),'dice_loss_plus_1focal_loss': total_loss,'iou_score':sm.metrics.IOUScore(threshold=0.5)})
+  
+  
   train_dataset = Dataset(
       x_train_dir,
       y_train_dir,
@@ -57,13 +70,13 @@ while last_index<=dataset_len-1:
   # Dataset for validation images
 
 
-  # valid_dataset = Dataset(
-  #     x_valid_dir,
-  #     y_valid_dir,
-  #     classes=CLASSES,
-  #     augmentation=get_validation_augmentation(),
-  #     preprocessing=get_preprocessing(preprocess_input),
-  # )
+  valid_dataset = Dataset(
+      x_valid_dir,
+      y_valid_dir,
+      classes=CLASSES,
+      augmentation=get_validation_augmentation(),
+      preprocessing=get_preprocessing(preprocess_input),
+  )
 
 
 
@@ -73,7 +86,7 @@ while last_index<=dataset_len-1:
 
 
 
-  # valid_dataloader = Dataloder(valid_dataset, batch_size=1, shuffle=False)
+  valid_dataloader = Dataloder(valid_dataset, batch_size=1, shuffle=False)
 
   # check shapes for errors
   # print("DATALODAEER SHAPE 0==========================",train_dataloader[0][0].shape)
@@ -85,9 +98,9 @@ while last_index<=dataset_len-1:
   # define callbacks for learning rate scheduling and best checkpoints saving
   # /content/drive/MyDrive/Ottonomy/best_model.h5
   callbacks = [
-      # keras.callbacks.ModelCheckpoint('../drive/MyDrive/Ottonomy/best_model_ep-'+str(current_epoch)+'.h5', save_weights_only=False, save_best_only=True, mode='min'),
-      keras.callbacks.ReduceLROnPlateau(monitor='loss', factor=0.01,
-                              patience=10, min_lr=0.0)
+      keras.callbacks.ModelCheckpoint('../drive/MyDrive/Ottonomy/best_model_ep-'+str(current_epoch)+'.h5', save_weights_only=False, save_best_only=True, mode='min'),
+      keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.01,
+                              patience=5, min_lr=0.0)
   ]
 
   # train model
@@ -96,8 +109,8 @@ while last_index<=dataset_len-1:
       steps_per_epoch=len(train_dataloader),
       epochs=EPOCHS,
       callbacks=callbacks
-      # validation_data=valid_dataloader,
-      # validation_steps=len(valid_dataloader),
+      validation_data=valid_dataloader,
+      validation_steps=len(valid_dataloader),
   )
   model.save('../drive/MyDrive/Ottonomy/saved_model/my_model_ep-'+str(current_epoch))
   current_epoch+=1
