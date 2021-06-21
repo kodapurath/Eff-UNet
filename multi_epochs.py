@@ -13,7 +13,7 @@ from tensorflow.keras.models import load_model# import efficientnet.keras as k
 # model=keras.models.load_model('../drive/MyDrive/Ottonomy/saved_model/my_model2')
 
 
-current_epoch=9
+current_epoch=10
 
 
 BATCH_SIZE = 3
@@ -45,13 +45,13 @@ val_last_index=val_div-1
 val_dataset_len=len(x_val_dir)
 while last_index<=dataset_len-1:
 
-  x_train_dir=x_train_dir[first_index:last_index]
-  y_train_dir=y_train_dir[first_index:last_index]
+  x_train_dir_in=x_train_dir[first_index:last_index]
+  y_train_dir_in=y_train_dir[first_index:last_index]
   first_index=last_index+1
   last_index+=div
 
-  x_val_dir=x_val_dir[val_first_index:val_last_index]
-  y_val_dir=y_val_dir[val_first_index:val_last_index]
+  x_val_dir_in=x_val_dir[val_first_index:val_last_index]
+  y_val_dir_in=y_val_dir[val_first_index:val_last_index]
   val_first_index=val_last_index+1
   val_last_index+=val_div
 
@@ -60,8 +60,8 @@ while last_index<=dataset_len-1:
   
   
   train_dataset = Dataset(
-      x_train_dir,
-      y_train_dir,
+      x_train_dir_in,
+      y_train_dir_in,
       classes=CLASSES,
       augmentation=get_training_augmentation(),
       preprocessing=get_preprocessing(preprocess_input),
@@ -71,8 +71,8 @@ while last_index<=dataset_len-1:
 
 
   valid_dataset = Dataset(
-      x_val_dir,
-      y_val_dir,
+      x_val_dir_in,
+      y_val_dir_in,
       classes=CLASSES,
       augmentation=get_validation_augmentation(),
       preprocessing=get_preprocessing(preprocess_input),
