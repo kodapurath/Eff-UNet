@@ -32,7 +32,7 @@ metrics = [sm.metrics.IOUScore(threshold=0.5), sm.metrics.FScore(threshold=0.5)]
 
 # print(model.summary())
 
-x_train_dir, y_train_dir, x_valid_dir, y_valid_dir, x_test_dir, y_test_dir = data_path_loader()
+x_train_dir, y_train_dir, x_val_dir, y_val_dir, x_test_dir, y_test_dir = data_path_loader()
 
 first_index=0
 div=int(len(x_train_dir)/10)
@@ -71,8 +71,8 @@ while last_index<=dataset_len-1:
 
 
   valid_dataset = Dataset(
-      x_valid_dir,
-      y_valid_dir,
+      x_val_dir,
+      y_val_dir,
       classes=CLASSES,
       augmentation=get_validation_augmentation(),
       preprocessing=get_preprocessing(preprocess_input),
@@ -108,7 +108,7 @@ while last_index<=dataset_len-1:
       train_dataloader,
       steps_per_epoch=len(train_dataloader),
       epochs=EPOCHS,
-      callbacks=callbacks
+      callbacks=callbacks,
       validation_data=valid_dataloader,
       validation_steps=len(valid_dataloader),
   )
