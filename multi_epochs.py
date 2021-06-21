@@ -13,8 +13,7 @@ from tensorflow.keras.models import load_model# import efficientnet.keras as k
 # model=keras.models.load_model('../drive/MyDrive/Ottonomy/saved_model/my_model2')
 
 
-current_epoch=8
-
+current_epoch=9
 
 
 BATCH_SIZE = 3
@@ -38,9 +37,9 @@ x_train_dir, y_train_dir, x_valid_dir, y_valid_dir, x_test_dir, y_test_dir = dat
 first_index=0
 div=int(len(x_train_dir)/6)
 last_index=div-1
+dataset_len=len(x_train_dir)
 
-
-while last_index<=len(x_train_dir)-1:
+while last_index<=dataset_len-1:
 
   x_train_dir=x_train_dir[first_index:last_index]
   y_train_dir=y_train_dir[first_index:last_index]
@@ -86,8 +85,9 @@ while last_index<=len(x_train_dir)-1:
   # define callbacks for learning rate scheduling and best checkpoints saving
   # /content/drive/MyDrive/Ottonomy/best_model.h5
   callbacks = [
-      keras.callbacks.ModelCheckpoint('../drive/MyDrive/Ottonomy/best_model_ep-'+str(current_epoch)+'.h5', save_weights_only=False, save_best_only=True, mode='min'),
-      keras.callbacks.ReduceLROnPlateau(),
+      # keras.callbacks.ModelCheckpoint('../drive/MyDrive/Ottonomy/best_model_ep-'+str(current_epoch)+'.h5', save_weights_only=False, save_best_only=True, mode='min'),
+      keras.callbacks.ReduceLROnPlateau(monitor='loss', factor=0.01,
+                              patience=10, min_lr=0.0)
   ]
 
   # train model
