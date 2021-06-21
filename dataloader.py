@@ -16,22 +16,22 @@ class Dataloder(keras.utils.Sequence):
         self.batch_size = batch_size
         self.shuffle = shuffle
         self.indexes = np.arange(len(dataset))
-        print('inside dataloader.py/__init__ self.indexes= ', self.indexes)
+#         print('inside dataloader.py/__init__ self.indexes= ', self.indexes)
         self.on_epoch_end()
 
     def __getitem__(self, i):
 
         # collect batch data
-        print("inside dataloader.py/__getitem__ Collecting batch data .....")
+#         print("inside dataloader.py/__getitem__ Collecting batch data .....")
 
         start = i * self.batch_size
         stop = (i + 1) * self.batch_size
         data = []
-        print('start = ', start)
-        print('stop = ', stop)
+#         print('start = ', start)
+#         print('stop = ', stop)
         for j in range(start, stop):
             data.append(self.dataset[j])
-        print('Data = ', data)
+#         print('Data = ', data)
         # transpose list of lists
         batch = [np.stack(samples, axis=0) for samples in zip(*data)]
 
