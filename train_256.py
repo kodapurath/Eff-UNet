@@ -10,12 +10,17 @@ from tensorflow.keras.models import load_model
 from keras.callbacks import CSVLogger
 # Downloading cityscapes data
 x_train_dir, y_train_dir, x_valid_dir, y_valid_dir, x_test_dir, y_test_dir = data_path_loader()
+# x_train_dir=x_train_dir[:100]
+# y_train_dir=y_train_dir[:100]
+# x_valid_dir=x_valid_dir[:100]
+# y_valid_dir=y_valid_dir[:100]
+
 """# Segmentation model training"""
 import segmentation_models as sm
 BATCH_SIZE = 3
 CLASSES = get_cityscapes_labels()
 LR = 0.001
-EPOCHS = 2
+EPOCHS = 5
 BACKBONE = 'efficientnetb4'
 
 preprocess_input = sm.get_preprocessing(BACKBONE)
@@ -77,7 +82,8 @@ class printlearningrate(keras.callbacks.Callback):
         optimizer = self.model.optimizer
         lr = keras.backend.eval(optimizer.lr)
         Epoch_count = epoch + 1
-        print('\n', "Epoch:", Epoch_count, ', LR: {:.2f}'.format(lr))
+        print("Epoch:", Epoch_count)
+        print("Learning Rate : ",lr)
 
 printlr = printlearningrate() 
 
@@ -109,25 +115,5 @@ history = model.fit_generator(
     validation_data=valid_dataloader,
     validation_steps=len(valid_dataloader),
 )
-model.save('../drive/MyDrive/Ottonomy/saved_model/my_model2_256x256')
+model.save('../drive/MyDrive/Ottonomy/saved_model/my_model2_July_256x256')
 
-# Plot training & validation iou_score values
-plt.figure(figsize=(30, 5))
-plt.subplot(121)
-plt.plot(history.history['iou_score'])
-plt.plot(history.history['val_iou_score'])
-plt.title('Model iou_score')
-plt.ylabel('iou_score')
-plt.xlabel('Epoch')
-plt.legend(['Train', 'Test'], loc='upper left')
-plt.savefig("train_val_iou_score.jpg")
-# Plot training & validation loss values
-plt.subplot(122)
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
-plt.title('Model loss')
-plt.ylabel('Loss')
-plt.xlabel('Epoch')
-plt.legend(['Train', 'Test'], loc='upper left')
-plt.savefig("train_val_loss.jpg")
-plt.show()
