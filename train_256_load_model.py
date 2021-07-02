@@ -19,7 +19,7 @@ x_train_dir, y_train_dir, x_valid_dir, y_valid_dir, x_test_dir, y_test_dir = dat
 import segmentation_models as sm
 BATCH_SIZE = 3
 CLASSES = get_cityscapes_labels()
-# LR = 0.001
+LR = 0.000348
 EPOCHS = 5
 BACKBONE = 'efficientnetb1'
 
