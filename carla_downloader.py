@@ -1,7 +1,7 @@
 import os
 from glob import glob
 
-def data_path_loader(dataset_path='/content/drive/MyDrive/Ottonomy/Carla_Images'):
+def data_path_loader(dataset_path='/content/drive/MyDrive/Ottonomy/Carla_images'):
     
     def image_accumulator_from_folder(list_of_folders):
         # print(list_of_folders)
